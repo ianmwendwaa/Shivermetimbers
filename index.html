@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cinderella</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Indie+Flower&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Style+Script&display=swap" rel="stylesheet">
+    <style>
+        /* Apply Inter font globally */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to bottom right, #1a202c, #000000); /* Dark gradient background */
+            overflow: hidden; /* Prevent scrollbars during animation */
+        }
+        /* Envelope Container */
+        .envelope-container {
+            position: relative;
+            width: 80vw; /* Responsive width */
+            max-width: 300px; /* Max width for desktop */
+            height: calc(80vw * 0.66); /* Maintain aspect ratio (3:2) */
+            max-height: 200px; /* Max height for desktop */
+            perspective: 1000px;
+            cursor: pointer;
+            transition: transform 0.5s ease-in-out;
+            z-index: 10;
+            border-radius: 12px; /* Rounded corners */
+        }
+
+        /* Envelope Base (Back and Front) */
+        .envelope-base, .envelope-front {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #f0f0f0; /* Light gray for envelope */
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transform-style: preserve-3d;
+        }
+
+        .envelope-front {
+            z-index: 1; /* Ensure front is above base */
+        }
+
+        /* Envelope Flaps */
+        .envelope-flap {
+            position: absolute;
+            background-color: #e20574; /* Slightly darker gray for flaps */
+            border-radius: 8px; /* Rounded corners for flaps */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .envelope-flap-top {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            clip-path: polygon(0 0, 100% 0, 50% 100%); /* Triangle shape */
+            transform-origin: bottom center;
+            transition: transform 1s ease-in-out; /* Smooth transition for opening */
+            z-index: 3;
+        }
+
+        /* Other flaps remain stationary */
+        .envelope-flap-left {
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            clip-path: polygon(0 0, 100% 50%, 0 100%);
+            transform-origin: right center;
+            z-index: 2;
+        }
+
+        .envelope-flap-right {
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            clip-path: polygon(100% 0, 0 50%, 100% 100%);
+            transform-origin: left center;
+            z-index: 2;
+        }
+
+        .envelope-flap-bottom {
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            clip-path: polygon(0 100%, 100% 100%, 50% 0);
+            transform-origin: top center;
+            z-index: 2;
+        }
+
+        /* Animation for top flap opening */
+        .envelope-top-flap-open {
+            animation: openFlap 1s forwards;
+        }
+
+        @keyframes openFlap {
+            0% { transform: rotateX(0deg); }
+            100% { transform: rotateX(-180deg); } /* Rotates upwards around the bottom edge */
+        }
+
+        /* Letter Container */
+        .letter-container {
+            position: absolute;
+            top: 50%; /* Center vertically initially */
+            left: 50%;
+            transform: translate(-50%, -50%); /* Adjust for centering */
+            width: 70%; /* Responsive width */
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform-origin: top center;
+            z-index: 0; /* Behind the envelope initially */
+            overflow: hidden; /* Hide overflow initially */
+            padding: 15px;
+            box-sizing: border-box;
+            white-space:pre-line; /* Preserve line breaks */
+            font-size: 0.9rem; /* Responsive font size */
+            line-height: 1.5;
+            color: #333;
+            /* Add transition for smooth movement after unfolding */
+            transition: top 0.5s ease-out, transform 0.5s ease-out, opacity 0.5s ease-out;
+        }
+
+        /* Animation for letter unfolding (now only scaleY and opacity) */
+        .letter-unfolding {
+            animation: unfoldLetter 1s forwards; /* Faster combined animation for just unfolding */
+            max-height: 80vh; /* Max height for unfolded letter, responsive */
+            overflow-y: auto; /* Enable scrolling if content is too long */
+            z-index: 15; /* Ensure letter stays in front during unfolding */
+        }
+        #letter-content{
+            font-family: "Indie Flower",serif;
+        }
+
+        @keyframes unfoldLetter {
+            0% { transform: translate(-50%, -50%) scaleY(0.1); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scaleY(1); opacity: 1; }
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 640px) { /* Changed to a more common mobile breakpoint */
+            .envelope-container {
+                width: 90vw;
+                height: calc(90vw * 0.66); /* Adjust based on new width */
+                max-height: 250px; /* Allow for a slightly taller envelope on small screens */
+            }
+            .letter-container {
+                width: 85%;
+                max-height: 90vh; /* Make it effectively "taller" by allowing more vertical space */
+                font-size: 0.8rem;
+                padding: 10px; /* Slightly less padding for smaller screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="envelope-container" class="envelope-container">
+        <div class="envelope-base"></div>
+
+        <div id="top-flap" class="envelope-flap envelope-flap-top"></div>
+        <div class="envelope-flap envelope-flap-left"></div>
+        <div class="envelope-flap envelope-flap-right"></div>
+        <div class="envelope-flap envelope-flap-bottom"></div>
+
+        <div class="envelope-front"></div>
+
+        <div id="letter-container" class="letter-container">
+            <p id="letter-content">
+                Dear Cinderella,
+
+                I hope this letter finds you well. I'm writing to invite you to the Royal Ball this Saturday at the Grand Palace. It's an evening of enchantment, music, and dancing, and your presence would truly make it sparkle.
+
+                Please ensure you arrive by eight o'clock, and remember to wear your most beautiful gown. I eagerly await the pleasure of your company.
+
+                The grand festivities will include a delightful feast, lively waltzes, and perhaps even a surprise or two. Many esteemed guests from far and wide will be in attendance, and it promises to be a truly memorable night.
+
+                Don't worry about transportation; a carriage will be sent to your residence. Just be ready by the appointed time. We look forward to seeing you there and sharing in the joyous occasion.
+
+                With the warmest regards,
+
+                The Prince
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Get references to HTML elements
+        const envelopeContainer = document.getElementById('envelope-container');
+        const topFlap = document.getElementById('top-flap');
+        const letterContainer = document.getElementById('letter-container');
+        const letterContentElement = document.getElementById('letter-content');
+
+        // Predefined text for the letter
+        const letterContent = `
+            Dear Odriya,
+
+            Words cannot express what I am even thinking rn. Even using code I'm still fumbling like wthelly are you doing to me
+            Odriya ╯︿╰
+            I haven't a clue if this ball is for me or for Maserati Daddy to shoot but, I guess this is the only way I'll know.
+
+            Yeah that's right, wewe ndiyo ule "msupa wangu". The girl mwenye natakanga kuspoil literally nikipata hata wanandred hata ka ni 
+            ya Mt.Kenya. Ule dem my secrets just crack open hadi mi nashangaa how I opened up too much.
+            I've had eyes on you for like 5 months? Thereabout.
+            Tbh I would never have opened up how i feel about you because hadi rn I don't know if I am making things 
+            better or more complicated for our friendship. Six years ago, I wouldn't have imagined actually telling one of the big girls
+            how I feel about them ngl. It just seemed like a fantasy yenye kofi moja safi ya Tr.Anthony ingenibomolea imagination.
+            But what do I love about you tho? Everything; you're just so loveable and kind and wooosh your personality!! It is just ittt! 
+
+            Oooh and btw the bag I got you, I picked the Eiffel one because I knew I "IFELL" for you😭.
+
+            But now, only you can poach the elephant in this lovey dovey room. Does the shoe fit you?
+
+            Fumbled by,
+            Chelate
+        `;
+
+        // State variables to control the animation stages
+        let isOpened = false;
+
+        // Function to handle the envelope click and trigger the animation sequence
+        function handleEnvelopeClick() {
+            if (!isOpened) { // Only trigger if not already opened
+                isOpened = true;
+
+                // 1. Open the top flap
+                topFlap.classList.add('envelope-top-flap-open');
+
+                // 2. After flap opens, set the letter content and then start its animation
+                setTimeout(() => {
+                    letterContentElement.textContent = letterContent; // Set content *before* animation
+                    letterContainer.classList.add('letter-unfolding');
+
+                    // 3. After the letter unfolds, adjust its position based on content height
+                    letterContainer.addEventListener('animationend', function handler() {
+                        letterContainer.removeEventListener('animationend', handler); // Remove listener after first run
+
+                        const letterHeight = letterContainer.offsetHeight; // Get actual height of the letter
+                        const viewportHeight = window.innerHeight;
+
+                        // Calculate an ideal `top` based on viewport and letter height.
+                        // We want the letter to be roughly centered vertically, but shift up if it's tall.
+                        // Here, we've increased the `0.1` to `0.2` (20% from the top)
+                        // This makes it stay a bit lower on the screen.
+                        const newTop = Math.max(
+                            (viewportHeight * 0.2), // Minimum 20% from top of viewport (Pushes it down further)
+                            (viewportHeight / 2) - (letterHeight / 2) // Centered vertically
+                        );
+                        letterContainer.style.top = `${newTop}px`;
+                        letterContainer.style.transform = `translateX(-50%)`; // Only translateX, top property handles vertical
+                    }, { once: true }); // Ensure this listener only runs once
+                }, 100);
+            }
+        }
+
+        // Function to reset the animation
+        function resetAnimation() {
+            isOpened = false;
+            topFlap.classList.remove('envelope-top-flap-open');
+            letterContainer.classList.remove('letter-unfolding');
+            letterContainer.style.opacity = 0; // Hide letter immediately
+            letterContentElement.textContent = ''; // Clear letter content
+            // Reset transforms and position
+            letterContainer.style.transform = 'translate(-50%, -50%)'; // Reset to initial centered position
+            letterContainer.style.top = '50%'; // Reset top to initial 50%
+            letterContainer.style.height = ''; // Remove inline height
+            letterContainer.style.maxHeight = ''; // Remove inline max-height
+            letterContainer.style.padding = ''; // Remove inline padding
+            letterContainer.style.overflowY = ''; // Remove inline overflow
+        }
+
+        // Add event listener to the envelope container
+        envelopeContainer.addEventListener('click', handleEnvelopeClick);
+
+        // Add event listener to reset animation if clicked outside the envelope
+        document.addEventListener('mousedown', (event) => {
+            if (isOpened && !envelopeContainer.contains(event.target)) {
+                resetAnimation();
+            }
+        });
+
+        // Initial setup for letter content visibility
+        window.onload = () => {
+            letterContentElement.textContent = ''; // Ensure content is hidden initially
+        };
+    </script>
+</body>
+</html>
