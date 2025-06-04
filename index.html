@@ -116,7 +116,7 @@
             top: 50%; /* Center vertically initially */
             left: 50%;
             transform: translate(-50%, -50%); /* Adjust for centering */
-            width: 70%; /* Responsive width */
+            width: 75%; /* Increased width for desktop */
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -129,9 +129,17 @@
             white-space:pre-line; /* Preserve line breaks */
             font-size: 0.9rem; /* Responsive font size */
             line-height: 1.5;
-            color: #333;
+            color: #000000;
             /* Add transition for smooth movement after unfolding */
             transition: top 0.5s ease-out, transform 0.5s ease-out, opacity 0.5s ease-out;
+
+            /* Properties to improve text rendering for transform animations */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            image-rendering: -webkit-optimize-contrast; /* For Chrome, to reduce blur */
+            transform-style: preserve-3d; /* Sometimes helps with rendering */
+            backface-visibility: hidden; /* Prevents back of transformed element from showing */
+            perspective: 1000px; /* Helps with 3D rendering */
         }
 
         /* Animation for letter unfolding (now only scaleY and opacity) */
@@ -143,6 +151,9 @@
         }
         #letter-content{
             font-family: "Indie Flower",serif;
+            /* Apply font smoothing directly to content as well */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         @keyframes unfoldLetter {
@@ -151,17 +162,17 @@
         }
 
         /* Responsive adjustments for smaller screens */
-        @media (max-width: 640px) { /* Changed to a more common mobile breakpoint */
+        @media (max-width: 640px) {
             .envelope-container {
-                width: 90vw;
-                height: calc(90vw * 0.66); /* Adjust based on new width */
-                max-height: 250px; /* Allow for a slightly taller envelope on small screens */
+                width: 90vw; /* Keep consistent with responsive design, 150px was very small */
+                height: calc(90vw * 0.66);
+                max-height: 250px;
             }
             .letter-container {
-                width: 85%;
-                max-height: 90vh; /* Make it effectively "taller" by allowing more vertical space */
-                font-size: 0.8rem;
-                padding: 10px; /* Slightly less padding for smaller screens */
+                width: 90%; /* Increased width for smaller screens */
+                max-height: 90vh;
+                font-size: 0.8rem; /* Use rem for better scaling */
+                padding: 10px;
             }
         }
     </style>
@@ -179,31 +190,36 @@
 
         <div id="letter-container" class="letter-container">
             <p id="letter-content">
-                Dear Cinderella,
+                Dear Odriya,
 
-                I hope this letter finds you well. I'm writing to invite you to the Royal Ball this Saturday at the Grand Palace. It's an evening of enchantment, music, and dancing, and your presence would truly make it sparkle.
+                Words cannot express what I am even thinking rn. Even using code I'm still fumbling like wthelly are you doing to me
+                Odriya ╯︿╰
+                I haven't a clue if this ball is for me or for Maserati Daddy to shoot but, I guess this is the only way I'll know.
 
-                Please ensure you arrive by eight o'clock, and remember to wear your most beautiful gown. I eagerly await the pleasure of your company.
+                Yeah that's right, wewe ndiyo ule "msupa wangu". The girl mwenye natakanga kuspoil literally nikipata hata wanandred hata ka ni
+                ya Mt.Kenya. Ule dem my secrets just crack open hadi mi nashangaa how I opened up too much.
+                I've had eyes on you for like 5 months? Thereabout.
+                Tbh I would never have opened up how i feel about you because hadi rn I don't know if I am making things
+                better or more complicated for our friendship. Six years ago, I wouldn't have imagined actually telling one of the big girls
+                how I feel about them ngl. It just seemed like a fantasy yenye kofi moja safi ya Tr.Anthony ingenibomolea imagination.
+                But what do I love about you tho? Everything; you're just so loveable and kind and wooosh your personality!! It is just ittt!
 
-                The grand festivities will include a delightful feast, lively waltzes, and perhaps even a surprise or two. Many esteemed guests from far and wide will be in attendance, and it promises to be a truly memorable night.
+                Oooh and btw the bag I got you, I picked the Eiffel one because I knew I "IFELL" for you😭.
 
-                Don't worry about transportation; a carriage will be sent to your residence. Just be ready by the appointed time. We look forward to seeing you there and sharing in the joyous occasion.
+                But now, only you can poach the elephant in this lovey dovey room. Does the shoe fit you?
 
-                With the warmest regards,
-
-                The Prince
+                Fumbled by,
+                Chelate
             </p>
         </div>
     </div>
 
     <script>
-        // Get references to HTML elements
         const envelopeContainer = document.getElementById('envelope-container');
         const topFlap = document.getElementById('top-flap');
         const letterContainer = document.getElementById('letter-container');
         const letterContentElement = document.getElementById('letter-content');
 
-        // Predefined text for the letter
         const letterContent = `
             Dear Odriya,
 
@@ -211,13 +227,13 @@
             Odriya ╯︿╰
             I haven't a clue if this ball is for me or for Maserati Daddy to shoot but, I guess this is the only way I'll know.
 
-            Yeah that's right, wewe ndiyo ule "msupa wangu". The girl mwenye natakanga kuspoil literally nikipata hata wanandred hata ka ni 
+            Yeah that's right, wewe ndiyo ule "msupa wangu". The girl mwenye natakanga kuspoil literally nikipata hata wanandred hata ka ni
             ya Mt.Kenya. Ule dem my secrets just crack open hadi mi nashangaa how I opened up too much.
             I've had eyes on you for like 5 months? Thereabout.
-            Tbh I would never have opened up how i feel about you because hadi rn I don't know if I am making things 
+            Tbh I would never have opened up how i feel about you because hadi rn I don't know if I am making things
             better or more complicated for our friendship. Six years ago, I wouldn't have imagined actually telling one of the big girls
             how I feel about them ngl. It just seemed like a fantasy yenye kofi moja safi ya Tr.Anthony ingenibomolea imagination.
-            But what do I love about you tho? Everything; you're just so loveable and kind and wooosh your personality!! It is just ittt! 
+            But what do I love about you tho? Everything; you're just so loveable and kind and wooosh your personality!! It is just ittt!
 
             Oooh and btw the bag I got you, I picked the Eiffel one because I knew I "IFELL" for you😭.
 
@@ -227,73 +243,58 @@
             Chelate
         `;
 
-        // State variables to control the animation stages
         let isOpened = false;
 
-        // Function to handle the envelope click and trigger the animation sequence
         function handleEnvelopeClick() {
-            if (!isOpened) { // Only trigger if not already opened
+            if (!isOpened) {
                 isOpened = true;
-
-                // 1. Open the top flap
                 topFlap.classList.add('envelope-top-flap-open');
 
-                // 2. After flap opens, set the letter content and then start its animation
                 setTimeout(() => {
-                    letterContentElement.textContent = letterContent; // Set content *before* animation
+                    letterContentElement.textContent = letterContent;
                     letterContainer.classList.add('letter-unfolding');
 
-                    // 3. After the letter unfolds, adjust its position based on content height
                     letterContainer.addEventListener('animationend', function handler() {
-                        letterContainer.removeEventListener('animationend', handler); // Remove listener after first run
+                        letterContainer.removeEventListener('animationend', handler);
 
-                        const letterHeight = letterContainer.offsetHeight; // Get actual height of the letter
+                        const letterHeight = letterContainer.offsetHeight;
                         const viewportHeight = window.innerHeight;
 
-                        // Calculate an ideal `top` based on viewport and letter height.
-                        // We want the letter to be roughly centered vertically, but shift up if it's tall.
-                        // Here, we've increased the `0.1` to `0.2` (20% from the top)
-                        // This makes it stay a bit lower on the screen.
                         const newTop = Math.max(
-                            (viewportHeight * 0.2), // Minimum 20% from top of viewport (Pushes it down further)
-                            (viewportHeight / 2) - (letterHeight / 2) // Centered vertically
+                            (viewportHeight * 0.2),
+                            (viewportHeight / 2) - (letterHeight / 2)
                         );
                         letterContainer.style.top = `${newTop}px`;
-                        letterContainer.style.transform = `translateX(-50%)`; // Only translateX, top property handles vertical
-                    }, { once: true }); // Ensure this listener only runs once
+                        letterContainer.style.transform = `translateX(-50%)`;
+                    }, { once: true });
                 }, 100);
             }
         }
 
-        // Function to reset the animation
         function resetAnimation() {
             isOpened = false;
             topFlap.classList.remove('envelope-top-flap-open');
             letterContainer.classList.remove('letter-unfolding');
-            letterContainer.style.opacity = 0; // Hide letter immediately
-            letterContentElement.textContent = ''; // Clear letter content
-            // Reset transforms and position
-            letterContainer.style.transform = 'translate(-50%, -50%)'; // Reset to initial centered position
-            letterContainer.style.top = '50%'; // Reset top to initial 50%
-            letterContainer.style.height = ''; // Remove inline height
-            letterContainer.style.maxHeight = ''; // Remove inline max-height
-            letterContainer.style.padding = ''; // Remove inline padding
-            letterContainer.style.overflowY = ''; // Remove inline overflow
+            letterContainer.style.opacity = 0;
+            letterContentElement.textContent = '';
+            letterContainer.style.transform = 'translate(-50%, -50%)';
+            letterContainer.style.top = '50%';
+            letterContainer.style.height = '';
+            letterContainer.style.maxHeight = '';
+            letterContainer.style.padding = '';
+            letterContainer.style.overflowY = '';
         }
 
-        // Add event listener to the envelope container
         envelopeContainer.addEventListener('click', handleEnvelopeClick);
 
-        // Add event listener to reset animation if clicked outside the envelope
         document.addEventListener('mousedown', (event) => {
             if (isOpened && !envelopeContainer.contains(event.target)) {
                 resetAnimation();
             }
         });
 
-        // Initial setup for letter content visibility
         window.onload = () => {
-            letterContentElement.textContent = ''; // Ensure content is hidden initially
+            letterContentElement.textContent = '';
         };
     </script>
 </body>
